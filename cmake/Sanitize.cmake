@@ -19,7 +19,7 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     message(STATUS "Sanitize with Thread Sanitizer (TSAN)")
     add_compile_options(${TSAN_COMPILE_FLAGS})
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${TSAN_LINK_FLAGS}")
-elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GCC")
+elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     set (GNU_SANITIZE_FLAGS
     -fsanitize=address,alignment,bool,bounds,enum,float-cast-overflow,float-divide-by-zero,integer-divide-by-zero,leak,nonnull-attribute,null,object-size,return,returns-nonnull-attribute,shift,signed-integer-overflow,undefined,unreachable,vla-bound,vptr
     )

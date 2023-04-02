@@ -1,0 +1,8 @@
+#ifndef MGKTL_MDATA_BUCKETARRAY_HPP
+#define MGKTL_MDATA_BUCKETARRAY_HPP
+
+namespace mgk {
+
+}
+
+#endif /* MGKTL_MDATA_BUCKETARRAY_HPP */
