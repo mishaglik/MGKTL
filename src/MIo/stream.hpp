@@ -104,6 +104,10 @@ namespace mgk {
     public:
         ofstream(size_t capacity = 4096) : OTextStream(capacity) {}
         ofstream(FILE* file, size_t capacity = 4096) : OTextStream(capacity), file_(file), destruct_file(false) {}
+        
+        ofstream(const ofstream&) = delete;
+        ofstream& operator=(const ofstream&) = delete;
+
         virtual ~ofstream() override 
         {
             flush();
@@ -134,6 +138,10 @@ namespace mgk {
             bufferCapacity_ = std::max(capacity, BUFFER_MIN_CAPACITY);
             buffer_ = new char[bufferCapacity_];
         }
+
+
+        istream(const istream&) = delete;
+        istream& operator=(const istream&) = delete;
 
         virtual ~istream() 
         {

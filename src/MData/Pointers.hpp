@@ -16,11 +16,11 @@ namespace mgk {
         UniquePtr operator=(std::nullptr_t) { delete object_; object_ = nullptr; }
 
         UniquePtr(const UniquePtr&) = delete;
-        UniquePtr operator=(const UniquePtr&) = delete;
+        UniquePtr& operator=(const UniquePtr&) = delete;
 
 
         UniquePtr(UniquePtr&& oth) : object_(oth.object_) { oth.object_ = nullptr; }
-        UniquePtr operator=(UniquePtr&& oth) {std::swap(object_, oth.object_);}
+        UniquePtr& operator=(UniquePtr&& oth) {std::swap(object_, oth.object_);}
 
         ~UniquePtr() {delete object_; object_ = nullptr;}
 
@@ -50,15 +50,15 @@ namespace mgk {
         CringePtr(T* t) : object_(t), nRefs_(new size_t(1)) {}
         
         CringePtr(const CringePtr& oth) : object_(oth.object_), nRefs_(oth.nRefs_) { if(nRefs_) ++*nRefs_; }
-        CringePtr operator=(const CringePtr& oth) { if(oth.object_ == object_) {return *this;} cleanup(); new(this) CringePtr(oth); return *this;}
+        CringePtr& operator=(const CringePtr& oth) { if(oth.object_ == object_) {return *this;} dieFromCringe(); new(this) CringePtr(oth); return *this;}
 
         CringePtr(std::nullptr_t) : object_(nullptr), nRefs_(nullptr) {}
-        CringePtr operator=(std::nullptr_t) { cleanup(); object_ = nullptr; nRefs_ = nullptr; return *this;}
+        CringePtr& operator=(std::nullptr_t) { dieFromCringe(); object_ = nullptr; nRefs_ = nullptr; return *this;}
 
         CringePtr(CringePtr&& oth) : object_(oth.object_), nRefs_(oth.nRefs_) { oth.object_ = nullptr; oth.nRefs_ = nullptr; }
-        CringePtr operator=(CringePtr&& oth) {std::swap(object_, oth.object_); std::swap(nRefs_, oth.nRefs_); return *this;}
+        CringePtr& operator=(CringePtr&& oth) {std::swap(object_, oth.object_); std::swap(nRefs_, oth.nRefs_); return *this;}
 
-        ~CringePtr() {cleanup();}
+        ~CringePtr() {dieFromCringe();}
 
         T* release() {T* obj = object_; object_ = nullptr; return obj;}
 
@@ -81,7 +81,7 @@ namespace mgk {
         std::size_t* nRefs_ = nullptr;
         const std::size_t ValueMask = 0x7FFF'FFFF'FFFF'FFFFul;
 
-        void cleanup() {
+        void dieFromCringe() {
             if(nRefs_ == nullptr) {
                 assert(object_ == nullptr);
                 return;
